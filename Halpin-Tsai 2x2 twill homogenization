@@ -1,0 +1,36 @@
+clc; clear;
+
+Ef     = 76e9;       
+Gf     = 31e9;     
+nu_f   = 0.22;  
+rho_f  = 2600;       
+
+Em     = 3.5e9;    
+Gm     = 1.27e9;   
+nu_m   = 0.38;      
+rho_m  = 1250;       
+
+Vf     = 0.62;       
+Vm     = 1 - Vf;
+xi_E   = 2;          
+xi_G   = 1.5;        
+t_ply  = 0.16e-3;   
+
+E0     = Vf * Ef + Vm * Em;   
+eta_E  = (Ef / Em - 1) / (Ef / Em + xi_E);
+E90    = Em * (1 + xi_E * eta_E * Vf) / (1 - eta_E * Vf);
+
+E1     = 0.5 * (E0 + E90);   
+E2     = E1;
+E3     = E90;
+
+eta_G  = (Gf / Gm - 1) / (Gf / Gm + xi_G);
+G12    = 0.6 * Gm * (1 + xi_G * eta_G * Vf) / (1 - eta_G * Vf);
+G13    = G12;
+G23    = G12;
+
+nu12   = Vf * nu_f + Vm * nu_m;
+nu13   = nu12 * (E3 / E1);
+nu23   = nu12 * (E3 / E2);
+
+rho    = rho_f * Vf + rho_m * Vm;
